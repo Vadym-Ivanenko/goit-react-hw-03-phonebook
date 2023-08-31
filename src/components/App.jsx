@@ -15,6 +15,25 @@ export class App extends Component {
     ],
     filter: '',
   };
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('phonebook-contacts');
+    if (savedContacts) {
+      const parseContacts = JSON.parse(savedContacts);
+      console.log(savedContacts);
+      this.setState({
+        contacts: parseContacts,
+      });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(
+        'phonebook-contacts',
+        JSON.stringify(this.state.contacts)
+      );
+    }
+  }
 
   handelChange = evt => {
     const { name, value } = evt.target;
